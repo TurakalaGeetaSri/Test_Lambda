@@ -1,0 +1,96 @@
+package test.maven;
+
+//This is maven project
+
+//<your package name>
+
+import org.testng.annotations.Test;
+
+import net.jodah.failsafe.internal.util.Assert;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.BeforeTest;
+public class Lambdatest {
+
+	  public RemoteWebDriver driver = null;
+	  String username = "Turakala.Sri";
+	  String accessKey = "pNO61Oz8gfwF7bQGUbW3WuIxXxNrGzpG6aeEXu8t1ZzzyORqJb";
+		
+		@BeforeTest
+		public void setUp() throws Exception {
+		  DesiredCapabilities capabilities = new DesiredCapabilities();
+	    capabilities.setCapability("browserName", "Chrome");
+	    capabilities.setCapability("version", "92.0");
+	    capabilities.setCapability("platform", "Windows 10");
+	    capabilities.setCapability("resolution","1024x768");
+		  capabilities.setCapability("build", "First Test");
+		  capabilities.setCapability("name", "Sample Test");
+		  capabilities.setCapability("network", true); 
+		  capabilities.setCapability("visual", true); 
+		  capabilities.setCapability("video", true); // To enable video recording
+		  capabilities.setCapability("console", true); // To capture console logs
+
+		  try {
+		    driver = new RemoteWebDriver(new URL("https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub"), capabilities);
+		  } catch (MalformedURLException e) {
+		    System.out.println("Invalid grid URL");
+		  }
+		}
+		@Test(enabled = true)
+		public void testScript() throws Exception {
+		  try {
+		    driver.get("https://www.lambdatest.com/selenium-playground/input-form-demo");
+		    driver.findElement(By.xpath("//a[contains(text(),'Simple Form Demo')]")).click();
+		    String URL = driver.getCurrentUrl();
+		    Assert.assertEquals(URL, "https://www.lambdatest.com/selenium-playground/simple-form-demo" );
+		    String message="Welcome to LambdaTest";
+		    driver.findElement(By.id("user-message")).sendKeys(message);
+		    driver.findElement(By.xpath("//button[contains(text(),'Get Checked value')]")).click();
+		    WebElement checkmsg=driver.findElement(By.xpath("//label[contains(text(),'Your Message: ')]"));
+		    Assert.assertEquals(checkmsg, message );
+		    
+		    @Test(enabled = true)
+		    public void testScript1() throws Exception {
+				  try {
+				    driver.get("https://www.lambdatest.com/selenium-playground/input-form-demo");
+				    driver.findElement(By.xpath("//a[contains(text(),'Drag & Drop Sliders')]")).click();
+				    WebElement slider = driver.findElement(By.xpath("slider3"));
+				    Actions action = new Actions(driver);
+				    WebElement source;
+					action.dragAndDropBy(source, 95, 0).perform();
+				    Assert.assertEquals(95,source );
+				    
+				    @Test(enabled = true)
+					public void testScript2() throws Exception {
+					  try {
+						
+					    driver.get("https://www.lambdatest.com/selenium-playground/input-form-demo");
+					    driver.findElement(By.xpath("//a[contains(text(),'Input Form Submit')]")).click();
+					    WebElement submit=driver.findElement(By.xpath("//button[contains(text(),'Submit')]"));
+					    submit.click();
+					    Assert.assertEquals(true, submit.isDisplayed());
+					    System.out.println("Please fill in the fields – Assert passed");
+					    driver.findElement(By.xpath("//*[@id=\"name\"]")).sendKeys("John");
+					    driver.findElement(By.xpath("//*[@id=\"inputEmail4\"]")).sendKeys("John113@gmail.com");
+					    driver.findElement(By.xpath("//*[@id=\"inputPassword4\"]")).sendKeys("Jois1245#");
+					    driver.findElement(By.xpath("//*[@id=\"company\"]")).sendKeys("");
+					    driver.findElement(By.xpath("//*[@id=\"inputCity\"]")).sendKeys("");
+					    driver.findElement(By.xpath("//*[@id=\"inputAddress1\"]")).sendKeys("");
+					    driver.findElement(By.xpath("//*[@id=\"inputAddress2\"]")).sendKeys("");
+					    driver.findElement(By.xpath("//*[@id=\"inputState\"]")).sendKeys("");
+					    driver.findElement(By.xpath("//*[@id=\"inputZip\"]")).sendKeys("");
+					    submit.click();
+					    Assert.assertEquals(true, submit.isDisplayed());    
+		    driver.quit();
+		  } catch (Exception e) {
+		    System.out.println(e.getMessage());
+		  }
+		}
+	}
+
